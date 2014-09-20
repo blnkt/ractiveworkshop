@@ -7,19 +7,31 @@
 	<link rel="stylesheet" type="text/css" href="../../css/style.css">
 	<script src='../../js/ractive.js'></script>
 	<script src='../../data/angelnames.js'></script>
-	<script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+	<script src='../../data/dadata.js'></script>
+
 
 </head>
 <body>
 
 <script id='template' type='text/ractive'>
 	<ul>
-		{{#each angels}}
-		<li>{{.}}</li>
+		{{#each dadata:i}}
+		{{#if age > 22}}
+		<li> {{#name}}{{first}}  {{last}}: {{age}}
+			<select value='{{friend}}'>
+			    <option selected disabled>Select a friend</option>
+			    {{#friends}}
+			        <option value='{{.}}'>{{name}}</option>
+			    {{/}}
+			</select>
+			{{.friend.name}}
+		  {{/}}</li>
+		{{/if}}
 		{{/each}}
 	</ul>
 
 	{{#each pets}} {{.}} {{else}} no pets :( {{/each}}
+
 
 </script>
 
@@ -28,8 +40,9 @@ new Ractive({
 	el: document.body,
 	template: '#template',
 	data: {
-		angels: angelNames,
-		pets: []
+		// angels: angelNames,
+		pets: [],
+		dadata: dadata
 	}
 })
 </script>

@@ -11,22 +11,69 @@
 	<style>
 		#frankendiv {
 			display: inline-block;
-			height: 100px; width: 100px;
 			border: 1px solid steelblue;
+		}
+	</style>
+	<style>
+		#frankendivjr {
+			display: inline-block;
+			border: 10px solid steelblue;
 		}
 	</style>
 </head>
 <body>
-
+	<div id="container"></div>
+    <div id="below"></div>
 <script id='template' type='text/ractive'>
-	<div id='frankendiv'></div>
+	<input type='color' value='{{color}}'>
+	<input type='range' min='10' max='500' step='10' value='{{size}}'>
+  <br>
+	<div style="height:{{size}}px; width:{{size}}px; background: {{color}};" id='frankendiv'>
+
+    <div style="height:{{sizejr}}px; width:{{sizejr}}px; background: {{colorjr}};" id="frankendivjr">
+      hello World
+    </div>
+	</div>
+	<br>
+	<input type='color' value='{{colorjr}}'>
+	<input type='range' min='10' max='500' step='10' value='{{sizejr}}'>
+</script>
+
+<script type="text/ractive" id="content">
+  <input type="text" value="{{text}}" >
 </script>
 
 <script>
 new Ractive({
-	el: document.body,
-	template: '#template'
+	el: '#container',
+	template: '#template',
+	data: {
+    size: 20,
+    color: 'red'
+	}
+})
+</script>
+
+<script>
+new Ractive({
+	el: '#container',
+	template: '#template',
+	data: {
+    sizejr: 20,
+    colorjr: 'blue'
+	}
+})
+</script>
+
+<script>
+new Ractive({
+	el: '#below',
+	template: '#content',
+	data: {
+		text: 'anything'
+	}
 })
 </script>
 
 <body>
+

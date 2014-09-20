@@ -10,23 +10,78 @@
 
 </head>
 <body>
+<div id="filesfolders">
+</div>
+<br>
+<div id="heythere">
+</div>
 
 <script id='template' type='text/ractive'>
-{{JSON.stringify(root)}}
+{{#each root.files}}
+  {{> type === "folder" ? "folderview" : "fileview" }}
+{{/each}}
+
+<!-- {{>folderview}} -->
+<div class="folderview" style="border: 2px solid steelblue;">
+  {{filename}}
+  <ul>
+  {{#each files}}
+    {{> type === "folder" ? "folderview" : "fileview" }}
+  {{/each}}
+  </ul>
+</div>
+<!-- {{/folderview}} -->
+
+<!-- {{>fileview}} -->
+<div class="fileview" style="border: 2px solid green;">
+  {{filename}}
+<div>
+<!-- {{/fileview}} -->
+
+</script>
+
+
+<script id='templatenew' type='text/ractive'>
+
+{{#each keyedData}}
+  {{>childview}}
+{{/each}}
+
+
+
+<!-- {{>childview}} -->
+<div class="childview" style="border: 2px solid steelblue;">
+  <ul>
+    <li>{{this.name}}
+      <ul>
+      {{>parentview}}</ul>
+    </li>
+  </ul>
+</div>
+<!-- {{/childview}} -->
+
+
+<!-- {{>parentview}} -->
+<div class="parentview" style="border: 2px solid red;">
+  {{this.parent}}
+</div>
+<!-- {{/parentview}} -->
 </script>
 
 <script>
 
 var ractive = new Ractive({
-	el: document.body,
+	el: '#filesfolders',
 	template: '#template',
 	data: {
 		root: {
 		    files: [
 		        { type: 'jpg', filename: 'hello.jpg' },
 		        { type: 'mp3', filename: 'NeverGonna.mp3' },
+
 		        { type: 'folder', filename: 'subfolder', files: [
 		          { type: 'txt', filename: 'README.txt' },
+
 		          { type: 'folder', filename: 'rabbithole', files: [
 		            { type: 'txt', filename: 'Inception.txt' }
 		          ]}
@@ -35,22 +90,32 @@ var ractive = new Ractive({
 		}
 	}
 })
+</script>
 
-var keyedData = [
-	{ id: 1, parent: null, name: 'I am 1 and have no parent' },
-	{ id: 2, parent: 1, name: 'I am 2 and 1 is my parent' },
-	{ id: 3, parent: 1, name: 'I am 3 and 1 is my parent' },
-	{ id: 4, parent: 2, name: 'I am 4 and 2 is my parent' },
-	{ id: 5, parent: 2, name: 'I am 5 and 2 is my parent' },
-	{ id: 6, parent: 4, name: 'I am 6 and 4 is my parent' },
-	{ id: 7, parent: 4, name: 'I am 7 and 4 is my parent' },
-	{ id: 8, parent: 7, name: 'I am 8 and 7 is my parent' },
-	{ id: 9, parent: 3, name: 'I am 9 and 3 is my parent' },
-	{ id: 10, parent: 9, name: 'I am 10 and 9 is my parent' },
-	{ id: 11, parent: 1, name: 'I am 11 and 1 is my parent' },
-	{ id: 12, parent: 11, name: 'I am 12 and 11 is my parent' },
-]
+<script>
+	var larger = new Ractive({
+		el: '#heythere',
+		template: '#templatenew',
+		data: {
+		  keyedData: [
+				{ id: 1, parent: null, name: 'I am 1 and have no parent' },
+				{ id: 2, parent: 1, name: 'I am 2 and 1 is my parent' },
+				{ id: 3, parent: 1, name: 'I am 3 and 1 is my parent' },
+				{ id: 4, parent: 2, name: 'I am 4 and 2 is my parent' },
+				{ id: 5, parent: 2, name: 'I am 5 and 2 is my parent' },
+				{ id: 6, parent: 4, name: 'I am 6 and 4 is my parent' },
+				{ id: 7, parent: 4, name: 'I am 7 and 4 is my parent' },
+				{ id: 8, parent: 7, name: 'I am 8 and 7 is my parent' },
+				{ id: 9, parent: 3, name: 'I am 9 and 3 is my parent' },
+				{ id: 10, parent: 9, name: 'I am 10 and 9 is my parent' },
+				{ id: 11, parent: 1, name: 'I am 11 and 1 is my parent' },
+				{ id: 12, parent: 11, name: 'I am 12 and 11 is my parent' },
+		  ]
+    }
+  })
 
 </script>
 
 <body>
+
+

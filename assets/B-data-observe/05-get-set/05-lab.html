@@ -7,19 +7,43 @@
 	<link rel="stylesheet" type="text/css" href="../../css/style.css">
 	<script src='../../js/ractive.js'></script>
 	<script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+  <script src='../../data/dadata.js'></script>
 
 </head>
 <body>
 
 <script id='template' type='text/ractive'>
-
+{{#parent}}
+  {{name}}:<br>
+  {{#each children}}
+    {{name}}<br>
+  {{/each}}
+{{/}}
 </script>
 
 <script>
-new Ractive({
+var ractive = new Ractive({
 	el: document.body,
-	template: '#template'
+	template: '#template',
+  data: {
+    person: dadata,
+    parent: {
+      name: 'bob',
+      children: [
+        { name: 'sally' },
+        { name: 'fred' },
+        { name: 'lucy' }
+      ]
+    }
+  }
 })
+ractive.observe('parent.children.*.name', function(n,o,k){
+    console.log(k, 'changed from', o, 'to', n)
+}, {init: false})
+
+ractive.push('parent.children', {name: 'billy'})
+ractive.splice('parent.children', 1, 1, {name: 'sarah'})
+
 </script>
 
 <body>
